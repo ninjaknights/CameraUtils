@@ -2,10 +2,10 @@
 <a href="https://github.com/ninjaknights/CameraUtils"> <img src="assets/icon_banner.png?raw=true" alt="CameraUtils Banner" width="80%" height="80%" /></a>
 <p align="center">
 	<b>CameraUtils</b> is a PocketMine-MP virion designed to help developers/users use Camera Features.
-</p>
 
-[![GitHub stars](https://img.shields.io/github/stars/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/stargazers) [![GitHub forks](https://img.shields.io/github/forks/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/network/members) <br> [![Github downloads](https://img.shields.io/github/downloads/ninjaknights/CameraUtils/total)](https://github.com/ninjaknights/CameraUtils/releases) <br> [![GitHub license](https://img.shields.io/github/license/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/blob/main/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/issues) <br>
+[![GitHub stars](https://img.shields.io/github/stars/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/stargazers) [![GitHub forks](https://img.shields.io/github/forks/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/network/members) <br> [![Github downloads](https://img.shields.io/github/downloads/ninjaknights/CameraUtils/total)](https://github.com/ninjaknights/CameraUtils/releases) <br> [![GitHub license](https://img.shields.io/github/license/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/blob/stable-PM5/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/ninjaknights/CameraUtils)](https://github.com/ninjaknights/CameraUtils/issues) <br>
 [![Microsoft Docs](https://img.shields.io/badge/📖-Microsoft_Docs-blue)](https://learn.microsoft.com/en-us/minecraft/creator/documents/camerasystem/cameracommandintroduction?view=minecraft-bedrock-stable) [![Packagist](https://img.shields.io/badge/📦-Packagist-orange)](https://packagist.org/packages/ninjaknights/camerautils)
+</p>
 
 </div>
 
