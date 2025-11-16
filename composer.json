@@ -1,0 +1,41 @@
+{
+  "name": "ninjaknights/camerautils",
+  "description": "PocketMine-MP virion designed to assist developers in creating camera-related plugins.",
+  "type": "library",
+  "version": "0.0.1",
+  "license": "GPL-3.0",
+  "minimum-stability": "dev",
+	"prefer-stable": true,
+  "authors": [
+    {
+      "name": "HydroGamesDev",
+      "homepage": "https://github.com/HydroGamesDev",
+      "role": "Developer",
+      "email": "hydrogamesnetwork@gmail.com"
+    }
+  ],
+  "require-dev": {
+		"pocketmine/pocketmine-mp": "^5.37.0",
+    "php": "^8.1",
+		"sof3/pharynx": "^0.3.8",
+    "phpstan/phpstan": "^1.12"
+  },
+  "autoload": {
+    "classmap": ["src"]
+  },
+  "scripts": {
+		"analyze": "vendor/bin/phpstan analyze src --level=8 > output.txt 2>&1 || exit 0"
+	},
+  "extra": {
+    "virion": {
+      "spec": "3.1",
+      "namespace-root": "ninjaknights\\CameraUtils"
+    }
+  },
+    "config": {
+		"sort-packages": true,
+		"allow-plugins": {
+			"phpstan/extension-installer": true
+		}
+	}
+}
