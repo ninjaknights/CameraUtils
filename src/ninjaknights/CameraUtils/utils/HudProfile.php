@@ -11,6 +11,7 @@ use pocketmine\network\mcpe\protocol\types\hud\HudElement;
  * @method static ?array get(string $profile)
  * @method static bool exists(string $profile)
  * @method static void register(string $name, array $elements)
+ * @method static bool remove(string $name)
  * @method static ?array getCustomProfiles()
  */
 final class HudProfile {
@@ -29,7 +30,7 @@ final class HudProfile {
 	 * @return array<string, array>
 	 */
 	public static function getProfiles(): array {
-		return [
+		return array_merge([
 			self::CINEMATIC => HudUtils::getDefaultElements(),
 			self::DEFAULT => HudUtils::getAllElements(),
 			self::COMBAT => [
@@ -44,7 +45,7 @@ final class HudProfile {
 				HudElement::ITEM_TEXT,
 				HudElement::HOTBAR,
 			],
-		];
+		], self::$customProfiles);
 	}
 
 	/**
@@ -65,7 +66,7 @@ final class HudProfile {
 	 * @return bool
 	 */
 	public static function exists(string $profile): bool {
-		return isset(self::getProfiles()[strtolower($profile)]);
+    	return array_key_exists(strtolower($profile), self::getProfiles());
 	}
 
 	/**
@@ -77,6 +78,24 @@ final class HudProfile {
 	 */
 	public static function register(string $name, array $elements): void {
 		self::$customProfiles[strtolower($name)] = $elements;
+	}
+
+	/**
+	 * Removes a custom HUD profile.
+	 *
+	 * @param string $name
+	 * @return bool  True if removed, false if it didn't exist or is predefined.
+	 */
+	public static function remove(string $name): bool {
+		$name = strtolower($name);
+		if(array_key_exists($name, self::getProfiles()) && !array_key_exists($name, self::$customProfiles)){
+			return false;
+		}
+		if(isset(self::$customProfiles[$name])){
+			unset(self::$customProfiles[$name]);
+			return true;
+		}
+		return false;
 	}
 
 	/**
