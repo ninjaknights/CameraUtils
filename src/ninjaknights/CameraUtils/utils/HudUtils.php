@@ -26,7 +26,6 @@ final class HudUtils {
 	 *
 	 * @param Player $player
 	 * @param array|null $elements
-	 * @return void
 	 */
 	public static function hide(Player $player, ?array $elements = null): void {
 		$elements ??= self::getDefaultElements();
@@ -38,7 +37,7 @@ final class HudUtils {
 	 *
 	 * @param Player $player
 	 * @param array|null $elements
-	 * @return void
+	 * @param array|null $elements
 	 */
 	public static function show(Player $player, ?array $elements = null): void {
 		$elements ??= self::getDefaultElements();
@@ -51,7 +50,6 @@ final class HudUtils {
 	 * @param Player $player
 	 * @param array $elements
 	 * @param bool $visible
-	 * @return void
 	 */
 	public static function toggle(Player $player, array $elements, bool $visible): void {
 		$visibility = $visible ? HudVisibility::RESET : HudVisibility::HIDE;
@@ -84,7 +82,7 @@ final class HudUtils {
 	 * @param Player $player
 	 * @param array $elements
 	 * @param HudVisibility $visibility
-	 * @return void
+	 *
 	 * @throws \LogicException if the player is disconnected or offline.
 	 */
 	public static function sendPacket(Player $player, array $elements, HudVisibility $visibility): void {
@@ -95,11 +93,7 @@ final class HudUtils {
 		$player->getNetworkSession()->sendDataPacket($packet, true);
 	}
 
-	/**
-	 * Retrieves the default HUD elements.
-	 *
-	 * @return array
-	 */
+	/** @return array Default HUD elements */
 	public static function getDefaultElements(): array {
 		return [
 			HudElement::AIR_BUBBLES,
@@ -114,11 +108,7 @@ final class HudUtils {
 		];
 	}
 
-	/**
-	 * Retrieves all HUD elements.
-	 *
-	 * @return array
-	 */
+	/** @return array All HUD elements */
 	public static function getAllElements(): array {
 		return [
 			HudElement::PAPER_DOLL,

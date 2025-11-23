@@ -13,7 +13,7 @@ use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstructionRotation;
 
 final class DefaultCamera extends BaseCamera {
 
-	public ?int $preset;
+	public ?int $preset = null;
 	public ?CameraSetInstructionEase $easing = null;
 	public ?Vector3 $position = null;
 	public ?CameraSetInstructionRotation $rotation = null;
@@ -23,7 +23,6 @@ final class DefaultCamera extends BaseCamera {
 
 	public function __construct(CameraAPI $api){
 		parent::__construct($api);
-		$this->preset = PresetRegistry::getPresetId("minecraft:free");
 	}
 
 	public function resetCamera(): self {
@@ -70,7 +69,7 @@ final class DefaultCamera extends BaseCamera {
 		$this->createPacket(
 			CameraInstructionPacket::create(
 				set: $this->createInstruction(
-					preset: $this->preset ?? 0,
+					preset: $this->preset ?? PresetRegistry::getPresetId("minecraft:free"),
 					ease: $this->easing ?? $this->createEase(),
 					cameraPosition: $this->position,
 					rotation: $this->rotation,

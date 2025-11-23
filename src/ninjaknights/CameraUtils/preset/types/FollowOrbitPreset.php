@@ -8,13 +8,13 @@ use pocketmine\network\mcpe\protocol\types\camera\CameraPreset;
 final class FollowOrbitPreset extends BasePreset {
 
 	public function __construct() {
-		parent::__construct("minecraft:follow_orbit");
+		parent::__construct("minecraft:follow_orbit", null);
 	}
 
 	public function create(): CameraPreset {
 		return new CameraPreset(
 			name: $this->name,
-			parent: $this->parent ?? "",
+			parent: $this->parent,
 			xPosition: null,
 			yPosition: null,
 			zPosition: null,
@@ -29,8 +29,8 @@ final class FollowOrbitPreset extends BasePreset {
 			viewOffset: null,
 			entityOffset: null,
 			radius: null,
-			yawLimitMin: 0,
-			yawLimitMax: 0,
+			yawLimitMin: null,
+			yawLimitMax: null,
 			audioListenerType: CameraPreset::AUDIO_LISTENER_TYPE_PLAYER,
 			playerEffects: null,
 			aimAssist: null,

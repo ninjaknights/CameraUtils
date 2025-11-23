@@ -10,7 +10,7 @@ use pocketmine\network\mcpe\protocol\types\ControlScheme;
 use pocketmine\math\Vector2;
 use pocketmine\math\Vector3;
 
-final class CustomPreset extends BasePreset {
+class CustomPreset extends BasePreset {
 
 	private ?float $x = null;
 	private ?float $y = null;
@@ -33,14 +33,14 @@ final class CustomPreset extends BasePreset {
 	private ?CameraPresetAimAssist $aimAssist = null;
 	private ?ControlScheme $controlScheme = null;
 
-	public function __construct(string $name, string $parent) {
+	public function __construct(string $name, string|null $parent = null) {
 		parent::__construct($name, $parent);
 	}
 
 	public function create(): CameraPreset {
 		return new CameraPreset(
 			name: $this->name,
-			parent: $this->parent ?? "",
+			parent: $this->parent,
 			xPosition: $this->x,
 			yPosition: $this->y,
 			zPosition: $this->z,

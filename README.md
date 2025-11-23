@@ -29,8 +29,12 @@ class MyPlugin extends PluginBase {
 		if(!APIRegistry::isRegistered()){
 			APIRegistry::register($this);
 		}
-		 // Register default camera presets
+		// Register default camera presets
 		PresetRegistry::registerDefaults();
+		// Custom Preset should be registered along side this
+		PresetRegistry::registerPreset(new MoviePreset());
+		// It should be a class extending ninjaknights\CameraUtils\preset\types\CustomPreset
+		// class MoviePreset extends CustomPreset{}
 	}
 }
 ```

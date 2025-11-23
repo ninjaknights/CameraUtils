@@ -8,15 +8,14 @@ use pocketmine\network\mcpe\protocol\types\hud\HudElement;
  * Manages predefined HUD profiles.
  * 
  * @method static array getProfiles()
- * @method static ?array get(string $profile)
+ * @method static array|null get(string $profile)
  * @method static bool exists(string $profile)
  * @method static void register(string $name, array $elements)
  * @method static bool remove(string $name)
- * @method static ?array getCustomProfiles()
+ * @method static array|null getCustomProfiles()
  */
 final class HudProfile {
 
-	/** @var array<string, array> */
 	public static array $customProfiles = [];
 	/** Predefined HUD profile names */
 	public const CINEMATIC = 'cinematic';
@@ -27,7 +26,7 @@ final class HudProfile {
 	/**
 	 * Retrieves all predefined HUD profiles.
 	 *
-	 * @return array<string, array>
+	 * @return array
 	 */
 	public static function getProfiles(): array {
 		return array_merge([
@@ -66,7 +65,7 @@ final class HudProfile {
 	 * @return bool
 	 */
 	public static function exists(string $profile): bool {
-    	return array_key_exists(strtolower($profile), self::getProfiles());
+		return array_key_exists(strtolower($profile), self::getProfiles());
 	}
 
 	/**
@@ -74,7 +73,6 @@ final class HudProfile {
 	 *
 	 * @param string $name
 	 * @param array $elements
-	 * @return void
 	 */
 	public static function register(string $name, array $elements): void {
 		self::$customProfiles[strtolower($name)] = $elements;
@@ -91,6 +89,7 @@ final class HudProfile {
 		if(array_key_exists($name, self::getProfiles()) && !array_key_exists($name, self::$customProfiles)){
 			return false;
 		}
+		
 		if(isset(self::$customProfiles[$name])){
 			unset(self::$customProfiles[$name]);
 			return true;
@@ -101,9 +100,9 @@ final class HudProfile {
 	/**
 	 * Retrieves all custom HUD profiles.
 	 *
-	 * @return array|null
+	 * @return array
 	 */
-	public static function getCustomProfiles(): ?array {
+	public static function getCustomProfiles(): array {
 		return self::$customProfiles;
 	}
 }

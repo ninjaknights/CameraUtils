@@ -16,6 +16,7 @@ use pocketmine\network\mcpe\protocol\types\camera\CameraFadeInstruction;
 use pocketmine\network\mcpe\protocol\types\camera\CameraFadeInstructionColor;
 use pocketmine\network\mcpe\protocol\types\camera\CameraFadeInstructionTime;
 use pocketmine\network\mcpe\protocol\types\camera\CameraFovInstruction;
+use pocketmine\network\mcpe\protocol\types\camera\CameraRotationOption;
 use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstruction;
 use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstructionEase;
 use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstructionEaseType;
@@ -37,7 +38,7 @@ abstract class BaseCamera {
 	 *
 	 * @param CameraAPI|null $cameraApi
 	 */
-	public function __construct(CameraAPI $cameraApi) {
+	public function __construct(?CameraAPI $cameraApi) {
 		$this->cameraApi = $cameraApi;
 	}
 
@@ -243,14 +244,14 @@ abstract class BaseCamera {
 	 * Creates a CameraTargetInstruction instance.
 	 *
 	 * @param Vector3|null $targetCenterOffset
-	 * @param int $actorUniqueId
+	 * @param int|null $actorUniqueId
 	 * @return CameraTargetInstruction
 	 */
 	public function createTarget(
-		?Vector3 $targetCenterOffset = null,
-		int $actorUniqueId = 0
+		Vector3|null $targetCenterOffset = null,
+		int|null $actorUniqueId = null
 	): CameraTargetInstruction {
-		return new CameraTargetInstruction($targetCenterOffset, $actorUniqueId);
+		return new CameraTargetInstruction($targetCenterOffset, $actorUniqueId ?? 0);
 	}
 
 	/**
@@ -258,9 +259,9 @@ abstract class BaseCamera {
 	 *
 	 * @param float $totalTime
 	 * @param int $easeType
-	 * @param array $curve
-	 * @param array $progressKeyFrames
-	 * @param array $rotationOptions
+	 * @param Vector3[] $curve
+	 * @param Vector2[] $progressKeyFrames
+	 * @param CameraRotationOption[] $rotationOptions
 	 * @return CameraSplineInstruction
 	 */
 	public function createSpline(

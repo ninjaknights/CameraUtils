@@ -26,6 +26,7 @@ final class CameraWaypoint {
 	 * @param float|null $pitch
 	 * @param float|null $duration
 	 * @param int|null $easeType
+	 * @param string|null $preset
 	 */
 	public function __construct(
 		public ?string $id = null,
@@ -34,7 +35,8 @@ final class CameraWaypoint {
 		public ?float $yaw = 0.0,
 		public ?float $pitch = 0.0,
 		public ?float $duration = 1.0,
-		public ?int $easeType = CameraSetInstructionEaseType::LINEAR
+		public ?int $easeType = CameraSetInstructionEaseType::LINEAR,
+		public ?string $preset = null
 	) {
 		$this->id ??= uniqid("wp_", true);
 		$this->name ??= "Waypoint #" . substr($this->id, -4);
@@ -46,6 +48,10 @@ final class CameraWaypoint {
 
 	public function getName(): ?string {
 		return $this->name;
+	}
+
+	public function getPreset(): string {
+		return $this->preset ?? "minecraft:free";
 	}
 
 	public function getEaseType(): ?int {
@@ -74,6 +80,11 @@ final class CameraWaypoint {
 
 	public function setName(string $name): self {
 		$this->name = $name;
+		return $this;
+	}
+
+	public function setPreset(?string $preset = null): self {
+		$this->preset = $preset ?? "minecraft:free";
 		return $this;
 	}
 
@@ -115,7 +126,8 @@ final class CameraWaypoint {
 			yaw: $data["yaw"] ?? 0.0,
 			pitch: $data["pitch"] ?? 0.0,
 			duration: $data["duration"] ?? ($data["easeTime"] ?? 1.0),
-			easeType: $data["easeType"] ?? CameraSetInstructionEaseType::LINEAR
+			easeType: $data["easeType"] ?? CameraSetInstructionEaseType::LINEAR,
+			preset: $data["preset"] ?? "minecraft:free"
 		);
 		if(isset($data["delay"])){
 			$waypoint->setDelay((float)$data["delay"]);
@@ -141,6 +153,7 @@ final class CameraWaypoint {
 			"pitch" => $this->pitch,
 			"duration" => $this->duration,
 			"easeType" => $this->easeType,
+			"preset" => $this->preset,
 			"delay" => $this->delay
 		];
 	}

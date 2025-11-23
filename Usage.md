@@ -83,16 +83,15 @@ $cameraPlayer->play();
 
 | Function | Parameters | Return Type | Description |
 |----------|-----------|-------------|-------------|
-| `set` | `int $easeType = CameraSetInstructionEaseType::LINEAR`<br>`float $easeTime = 1.0`<br>`?Vector3 $position = null`<br>`float $pitch = 0.0`<br>`float $yaw = 0.0`<br>`?Vector3 $facingPosition = null`<br>`?Vector2 $viewOffset = null`<br>`?Vector3 $entityOffset = null` | `self` | Sets comprehensive camera parameters including position, rotation, and offsets. |
-| `targetPlayer` | `?Player $player = null` | `self` | Targets the camera at a specific player. |
-| `targetPos` | `?Vector3 $position = null` | `self` | Targets the camera at a specific position. |
+| `set` | `string $preset`<br>`int $easeType = CameraSetInstructionEaseType::LINEAR`<br>`float $easeTime = 1.0`<br>`?Vector3 $position = null`<br>`float $pitch = 0.0`<br>`float $yaw = 0.0`<br>`?Vector3 $facingPosition = null`<br>`?Vector2 $viewOffset = null`<br>`?Vector3 $entityOffset = null` | `self` | Sets comprehensive camera parameters including position, rotation, and offsets. |
+| `targetPlayer` | `?Player $player = null`<br>`?Vector3 $offset` | `self` | Targets the camera at a specific player. |
 | `attachToEntity` | `Player\|Entity\|Living\|null $value = null` | `self` | Attaches the camera to follow an entity. |
 
 ### Waypoint Management
 
 | Function | Parameters | Return Type | Description |
 |----------|-----------|-------------|-------------|
-| `createWaypoint` | `int $i = 0`<br>`float $delay = 0.0`<br>`?Vector3 $position = null`<br>`float $yaw = 0.0`<br>`float $pitch = 0.0`<br>`float $duration = 1.0`<br>`int $easeType = CameraSetInstructionEaseType::LINEAR` | `CameraWaypoint` | Creates a new CameraWaypoint with specified parameters. |
+| `createWaypoint` | `int $i = 0`<br>`float $delay = 0.0`<br>`?Vector3 $position = null`<br>`float $yaw = 0.0`<br>`float $pitch = 0.0`<br>`float $duration = 1.0`<br>`int $easeType = CameraSetInstructionEaseType::LINEAR`<br>`string = "minecraft:free"` | `CameraWaypoint` | Creates a new CameraWaypoint with specified parameters. |
 | `addWaypoint` | `CameraWaypoint $waypoint` | `self` | Adds a CameraWaypoint to the waypoints list. |
 | `setWaypoints` | `CameraWaypoint[] $waypoints` | `self` | Sets the complete list of CameraWaypoints, replacing existing ones. |
 | `getWaypoints` | None | `CameraWaypoint[]` | Retrieves the list of all CameraWaypoints. |
@@ -101,6 +100,18 @@ $cameraPlayer->play();
 | `playWaypoints` | `bool $clearQueue = true`<br>`bool $relative = true` | `self` | Plays all CameraWaypoints in sequence. If relative is true, plays sequentially; if false, uses absolute delays. |
 | `saveWaypoints` | `string $fileName` | `void` | Saves the waypoints to a JSON file in the cameras directory. |
 | `loadWaypoints` | `string $fileName` | `void` | Loads waypoints from a JSON file in the cameras directory. |
+
+### Method Class
+This method uses the Classes directly from `ninjaknights\CameraUtils\camera\types\` without the Queue/Delay.
+
+```php
+$cameraApi = CameraPlayer::get($player);
+// or
+$cameraApi = new CameraAPI($player);
+
+$camera = new ZoomInCamera($cameraApi);
+$camera->fov(1.6)->easeTime(2.0)->create();
+```
 
 ### Method Chaining
 
@@ -265,7 +276,8 @@ $waypoint1 = $camera->createWaypoint(
 	yaw: 0.0,
 	pitch: 0.0,
 	duration: 2.0,
-	easeType: CameraSetInstructionEaseType::LINEAR
+	easeType: CameraSetInstructionEaseType::LINEAR,
+	preset: "minecraft:free"
 );
 
 $waypoint2 = $camera->createWaypoint(
@@ -275,7 +287,8 @@ $waypoint2 = $camera->createWaypoint(
 	yaw: 45.0,
 	pitch: -10.0,
 	duration: 3.0,
-	easeType: CameraSetInstructionEaseType::EASE_IN
+	easeType: CameraSetInstructionEaseType::EASE_IN,
+	preset: "minecraft:free"
 );
 
 $waypoint3 = $camera->createWaypoint(
@@ -285,7 +298,8 @@ $waypoint3 = $camera->createWaypoint(
 	yaw: 90.0,
 	pitch: 0.0,
 	duration: 2.0,
-	easeType: CameraSetInstructionEaseType::EASE_OUT
+	easeType: CameraSetInstructionEaseType::EASE_OUT,
+	preset: "minecraft:free"
 );
 
 $camera
@@ -321,7 +335,8 @@ for($i = 0; $i < $numPoints; $i++) {
 		yaw: $yaw,
 		pitch: -15.0,
 		duration: 1.5,
-		easeType: CameraSetInstructionEaseType::EASE_IN_OUT
+		easeType: CameraSetInstructionEaseType::EASE_IN_OUT,
+		preset: "minecraft:free"
 	);
 	
 	$camera->addWaypoint($waypoint);
@@ -348,7 +363,8 @@ $wp1 = $camera->createWaypoint(
 	yaw: 0.0,
 	pitch: 0.0,
 	duration: 3.0,
-	easeType: CameraSetInstructionEaseType::EASE_IN
+	easeType: CameraSetInstructionEaseType::EASE_IN,
+	preset: "minecraft:free"
 );
 
 // Rising view
@@ -358,7 +374,8 @@ $wp2 = $camera->createWaypoint(
 	yaw: 45.0,
 	pitch: -20.0,
 	duration: 4.0,
-	easeType: CameraSetInstructionEaseType::LINEAR
+	easeType: CameraSetInstructionEaseType::LINEAR,
+	preset: "minecraft:free"
 );
 
 // Top view with slow rotation
@@ -368,7 +385,8 @@ $wp3 = $camera->createWaypoint(
 	yaw: 180.0,
 	pitch: -45.0,
 	duration: 5.0,
-	easeType: CameraSetInstructionEaseType::EASE_OUT
+	easeType: CameraSetInstructionEaseType::EASE_OUT,
+	preset: "minecraft:free"
 );
 
 // Final dramatic angle
@@ -378,7 +396,8 @@ $wp4 = $camera->createWaypoint(
 	yaw: 225.0,
 	pitch: -10.0,
 	duration: 3.0,
-	easeType: CameraSetInstructionEaseType::EASE_IN_OUT
+	easeType: CameraSetInstructionEaseType::EASE_IN_OUT,
+	preset: "minecraft:free"
 );
 
 $camera
@@ -403,9 +422,9 @@ $camera = CameraPlayer::get($player);
 $camera = new CameraAPI($player);
 
 $waypoints = [
-	$camera->createWaypoint(1, 0, new Vector3(100, 70, 100), 0, 0, 2.0),
-	$camera->createWaypoint(2, 0, new Vector3(110, 75, 110), 45, -10, 2.5),
-	$camera->createWaypoint(3, 0, new Vector3(120, 70, 120), 90, 0, 2.0),
+	$camera->createWaypoint(1, new Vector3(100, 70, 100), 0, 0, 2.0, "minecraft:free"),
+	$camera->createWaypoint(2, new Vector3(110, 75, 110), 45, -10, 2.5, "minecraft:free"),
+	$camera->createWaypoint(3, new Vector3(120, 70, 120), 90, 0, 2.0, "minecraft:free"),
 ];
 
 $camera->setWaypoints($waypoints);
@@ -487,7 +506,8 @@ for($i = 0; $i < 8; $i++) {
 		yaw: $yaw,
 		pitch: $pitch,
 		duration: 2.0,
-		easeType: CameraSetInstructionEaseType::EASE_IN_OUT
+		easeType: CameraSetInstructionEaseType::EASE_IN_OUT,
+		preset: "minecraft:free"
 	);
 	
 	$camera->addWaypoint($waypoint);

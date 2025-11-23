@@ -12,8 +12,8 @@ use pocketmine\player\Player;
 
 final class TargetCamera extends BaseCamera {
 
-	public ?Vector3 $target = null;
-	public int $targetId = 0;
+	public Vector3|null $target = null;
+	public int|null $targetId = null;
 	public int|null $attachID = null;
 
 	public function __construct(CameraAPI $api){
@@ -25,14 +25,8 @@ final class TargetCamera extends BaseCamera {
 		return $this;
 	}
 
-	public function setTargetPosition(?Vector3 $value = null): self {
-		$this->target = $value;
-		$this->targetId = 0;
-		return $this;
-	}
-
-	public function setTargetPlayer(?Player $target = null): self {
-		$this->target = $target->getPosition()->asVector3();
+	public function setTargetPlayer(Player|null $target = null, ?Vector3 $offset = null): self {
+		$this->target = $offset ?? new Vector3(0, 0, 0);
 		$this->targetId = $target->getId();
 		return $this;
 	}

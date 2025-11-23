@@ -4,17 +4,17 @@ namespace ninjaknights\CameraUtils\camera;
 
 use ninjaknights\CameraUtils\APIRegistry;
 use ninjaknights\CameraUtils\CameraPlayer;
-use pocketmine\math\Vector3;
-use pocketmine\math\Vector2;
-use pocketmine\player\Player;
-use pocketmine\entity\Entity;
-use pocketmine\entity\Living;
-use pocketmine\scheduler\ClosureTask;
-use pocketmine\scheduler\TaskHandler;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\color\Color;
+use pocketmine\entity\Entity;
+use pocketmine\entity\Living;
+use pocketmine\math\Vector2;
+use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\CameraShakePacket;
 use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstructionEaseType;
+use pocketmine\player\Player;
+use pocketmine\scheduler\ClosureTask;
+use pocketmine\scheduler\TaskHandler;
 use ninjaknights\CameraUtils\camera\types\{
 	ClearCamera,
 	ShakeStartCamera,
@@ -54,14 +54,13 @@ use ninjaknights\CameraUtils\camera\types\{
  * @method CameraAPI zoomOut(): self
  * @method CameraAPI fov(float $fov = 1.0, float $duration = 0.0, int $type = CameraSetInstructionEaseType::LINEAR): self
  * @method CameraAPI fade(float $fadeIn = 1.0, float $stay = 0.5, float $fadeOut = 1.0, Color|DyeColor|null $color = null): self
- * @method CameraAPI targetPlayer(?Player $player = null): self
- * @method CameraAPI targetPos(?Vector3 $position = null): self
+ * @method CameraAPI targetPlayer(?Player $player = null, ?Vector3 $offset = null): self
  * @method CameraAPI attachToEntity(Player|Entity|Living|null $value = null): self
- * @method CameraAPI set(int $easeType = CameraSetInstructionEaseType::LINEAR, float $easeTime = 1.0, ?Vector3 $position = null, float $pitch = 0.0, float $yaw = 0.0, ?Vector3 $facingPosition = null, ?Vector2 $viewOffset = null, ?Vector3 $entityOffset = null): self
+ * @method CameraAPI set(?string $preset = null, int $easeType = CameraSetInstructionEaseType::LINEAR, float $easeTime = 1.0, ?Vector3 $position = null, float $pitch = 0.0, float $yaw = 0.0, ?Vector3 $facingPosition = null, ?Vector2 $viewOffset = null, ?Vector3 $entityOffset = null): self
  * @method CameraAPI clear(bool $resetFov = false): self
  * @method void saveWaypoints(string $fileName)
  * @method void loadWaypoints(string $fileName)
- * @method CameraWaypoint createWaypoint(int $i = 0, float $delay = 0.0, ?Vector3 $position = null, float $yaw = 0.0, float $pitch = 0.0, float $duration = 1.0, int $easeType = CameraSetInstructionEaseType::LINEAR): CameraWaypoint
+ * @method CameraWaypoint createWaypoint(int $i = 0, float $delay = 0.0, ?Vector3 $position = null, float $yaw = 0.0, float $pitch = 0.0, float $duration = 1.0, int $easeType = CameraSetInstructionEaseType::LINEAR, string $preset = "minecraft:free"): CameraWaypoint
  * @method CameraAPI addWaypoint(CameraWaypoint $waypoint): self
  * @method CameraAPI setWaypoints(array $waypoints): self
  * @method array getWaypoints()
@@ -203,7 +202,7 @@ final class CameraAPI {
 		$delays = array_column($this->actions, 'delay');
 		$totalDuration = empty($delays) ? 0.0 : max($delays);
 		$finalDelay = (int) round(($totalDuration + 0.2) * 20);
-		/** @var TaskHandler $skipTask */
+		$skipTask = null;
 		$skipTask = APIRegistry::getPlugin()->getScheduler()->scheduleRepeatingTask(
 			new ClosureTask(function() use (&$skipTask): void {
 				if(!$this->player->isConnected()){
@@ -466,18 +465,8 @@ final class CameraAPI {
 	 * @param Player|null $player
 	 * @return self
 	 */
-	public function targetPlayer(?Player $player = null): self {
-		return $this->queue(fn() => (new TargetCamera(CameraPlayer::get($this->player)))->setTargetPlayer($player)->create());
-	}
-
-	/**
-	 * Targets a specific position.
-	 *
-	 * @param Vector3|null $position
-	 * @return self
-	 */
-	public function targetPos(?Vector3 $position = null): self {
-		return $this->queue(fn() => (new TargetCamera(CameraPlayer::get($this->player)))->setTargetPosition($position)->create());
+	public function targetPlayer(?Player $player = null, ?Vector3 $offset = null): self {
+		return $this->queue(fn() => (new TargetCamera(CameraPlayer::get($this->player)))->setTargetPlayer($player, $offset)->create());
 	}
 
 	/**
@@ -493,6 +482,7 @@ final class CameraAPI {
 	/**
 	 * Sets camera parameters.
 	 *
+	 * @param string|null $preset Default: `minecraft:free`
 	 * @param int $easeType
 	 * @param float $easeTime
 	 * @param Vector3|null $position
@@ -504,6 +494,7 @@ final class CameraAPI {
 	 * @return self
 	 */
 	public function set(
+		?string $preset = null,
 		int $easeType = CameraSetInstructionEaseType::LINEAR,
 		float $easeTime = 1.0,
 		?Vector3 $position = null,
@@ -513,7 +504,7 @@ final class CameraAPI {
 		?Vector2 $viewOffset = null,
 		?Vector3 $entityOffset = null,
 	): self {
-		return $this->queue(fn() => (new DefaultCamera(CameraPlayer::get($this->player)))->setEase($easeType, $easeTime)->setPosition($position)->setRotation($pitch, $yaw)->setFacing($facingPosition)->setViewOffset($viewOffset)->setEntityOffset($entityOffset)->create());
+		return $this->queue(fn() => (new DefaultCamera(CameraPlayer::get($this->player)))->setPreset($preset)->setEase($easeType, $easeTime)->setPosition($position)->setRotation($pitch, $yaw)->setFacing($facingPosition)->setViewOffset($viewOffset)->setEntityOffset($entityOffset)->create());
 	}
 
 	/**
@@ -562,6 +553,7 @@ final class CameraAPI {
 	 * @param float $pitch
 	 * @param float $duration
 	 * @param int $easeType
+	 * @param string $preset
 	 * @return CameraWaypoint
 	 */
 	public function createWaypoint(
@@ -571,7 +563,8 @@ final class CameraAPI {
 		float $yaw = 0.0,
 		float $pitch = 0.0,
 		float $duration = 1.0,
-		int $easeType = CameraSetInstructionEaseType::LINEAR
+		int $easeType = CameraSetInstructionEaseType::LINEAR,
+		string $preset = "minecraft:free"
 	): CameraWaypoint {
 		return (new CameraWaypoint(
 			id: uniqid(),
@@ -580,7 +573,8 @@ final class CameraAPI {
 			yaw: $yaw,
 			pitch: $pitch,
 			duration: $duration,
-			easeType: $easeType
+			easeType: $easeType,
+			preset: $preset
 		))->setDelay($delay);
 	}
 
@@ -635,6 +629,7 @@ final class CameraAPI {
 	public function playWaypoint(CameraWaypoint $wp, float $delay = 0.0): self {
 		return $this->queue(function() use ($wp): void {
 			CameraPlayer::get($this->player)->set(
+				$wp->getPreset(),
 				$wp->getEaseType(),
 				$wp->getEaseDuration(),
 				$wp->getPosition(),

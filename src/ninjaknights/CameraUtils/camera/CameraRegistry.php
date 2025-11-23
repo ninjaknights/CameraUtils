@@ -18,13 +18,14 @@ use ninjaknights\CameraUtils\camera\types\{
 /**
  * Registry for camera types.
  * 
- * @method static void registerDefaults()
- * @method static void register(string $name, string $class)
- * @method static string|null get(string $name)
- * @method static array all()
+ * @method static void registerDefaults()                     Initializes all built-in camera types.
+ * @method static void register(string $name, string $class)  Registers a camera type by name.
+ * @method static string|null get(string $name)               Retrieves a camera class name by type name.
+ * @method static array<string, class-string<BaseCamera>> all() Returns all registered camera types.
  */
 final class CameraRegistry {
 
+	/** @var array<string, class-string<BaseCamera>> */
 	public static array $cameras = [];
 
 	/**
@@ -47,11 +48,12 @@ final class CameraRegistry {
 	/**
 	 * Registers a new camera type.
 	 *
-	 * @param string $name
-	 * @param string $class
+	 * @param string $name  Unique name for this camera type (case-insensitive).
+	 * @param class-string<BaseCamera> $class  Class name of the camera action.
+	 * 
 	 * @return void
-	 * @throws \LogicException if the camera type is already registered.
-	 * @throws \InvalidArgumentException if the class does not extend BaseCamera.
+	 * @throws \LogicException If the camera name is already registered.
+	 * @throws \InvalidArgumentException If the class does not extend BaseCamera.
 	 */
 	public static function register(string $name, string $class): void {
 		$name = strtolower($name);
@@ -67,8 +69,8 @@ final class CameraRegistry {
 	/**
 	 * Retrieves the camera class by name.
 	 *
-	 * @param string $name
-	 * @return string|null
+	 * @param string $name Camera type name (case-insensitive).
+	 * @return class-string<BaseCamera>|null Fully-qualified class name or null if not found.
 	 */
 	public static function get(string $name): string|null {
 		return self::$cameras[strtolower($name)] ?? null;
@@ -77,7 +79,7 @@ final class CameraRegistry {
 	/**
 	 * Retrieves all registered camera types.
 	 *
-	 * @return array
+	 * @return array<string, class-string<BaseCamera>>
 	 */
 	public static function all(): array {
 		return self::$cameras;

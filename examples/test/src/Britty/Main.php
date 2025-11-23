@@ -4,6 +4,8 @@ namespace Britty;
 
 use ninjaknights\CameraUtils\APIRegistry;
 use ninjaknights\CameraUtils\camera\CameraAPI;
+use ninjaknights\CameraUtils\camera\types\FadeCamera;
+use ninjaknights\CameraUtils\camera\types\ZoomInCamera;
 use ninjaknights\CameraUtils\CameraPlayer;
 use ninjaknights\CameraUtils\preset\PresetRegistry;
 use pocketmine\plugin\PluginBase;
@@ -39,6 +41,12 @@ class Main extends PluginBase implements Listener{
 		$player = $event->getPlayer();
 		$item = $event->getItem();
 		if(!$camera = CameraPlayer::get($player)) return;
+		if($item->getTypeId() === VanillaItems::GOLD_INGOT()->getTypeId()){
+			$cam1 = new FadeCamera($camera);
+			$cam1->fadeIn(1.0)->stay(1.0)->fadeOut(1.4)->create();
+			$cam2 = new ZoomInCamera($camera);
+			$cam2->fov(1.6)->create();
+		}
 		if($item->getTypeId() === VanillaItems::STICK()->getTypeId()){
 			$camera->clear(true)
 				->fade(1.0, 0.5, 1.0)

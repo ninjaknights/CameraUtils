@@ -8,15 +8,15 @@ use pocketmine\color\Color;
 /**
  * Utility functions for vector and color manipulations.
  * 
- * @method static array normalizeColor(Color|DyeColor $color)
+ * @method static array{0: float, 1: float, 2: float} normalizeColor(Color|DyeColor $color)
  */
 final class VectorUtils {
 
 	/**
-	 * Normalizes a Color or DyeColor to an array of RGB float values (0.0 to 1.0).
+	 * Normalizes a Color or DyeColor into an RGB array of floats (0.0–1.0).
 	 *
 	 * @param Color|DyeColor $color
-	 * @return array
+	 * @return array{0: float, 1: float, 2: float} RGB array
 	 */
 	public static function normalizeColor(Color|DyeColor $color): array {
 		if($color instanceof DyeColor){

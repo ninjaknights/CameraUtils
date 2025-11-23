@@ -16,8 +16,8 @@ abstract class BasePreset {
 
 	/** @var string */
 	protected string $name;
-	/** @var string|null */
-	protected string|null $parent = null;
+	/** @var string */
+	protected string $parent;
 
 	/**
 	 * Constructor for BasePreset.
@@ -25,9 +25,9 @@ abstract class BasePreset {
 	 * @param string $name
 	 * @param string|null $parent
 	 */
-	public function __construct(string $name, ?string $parent = null) {
+	public function __construct(string $name, string|null $parent = null) {
 		$this->name = $name;
-		$this->parent = $parent;
+		$this->parent = $parent ?? "";
 	}
 
 	/**
@@ -42,9 +42,9 @@ abstract class BasePreset {
 	/**
 	 * Gets the parent preset name, if any.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
-	public function getParent(): ?string {
+	public function getParent(): string {
 		return $this->parent;
 	}
 

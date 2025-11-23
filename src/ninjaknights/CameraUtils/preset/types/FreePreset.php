@@ -8,18 +8,18 @@ use pocketmine\network\mcpe\protocol\types\camera\CameraPreset;
 final class FreePreset extends BasePreset {
 
 	public function __construct() {
-		parent::__construct("minecraft:free");
+		parent::__construct("minecraft:free", null);
 	}
 
 	public function create(): CameraPreset {
 		return new CameraPreset(
 			name: $this->name,
-			parent: $this->parent ?? "",
-			xPosition: 0.0,
-			yPosition: 0.0,
-			zPosition: 0.0,
-			pitch: 0.0,
-			yaw: 0.0,
+			parent: $this->parent,
+			xPosition: null,
+			yPosition: null,
+			zPosition: null,
+			pitch: null,
+			yaw: null,
 			rotationSpeed: null,
 			snapToTarget: null,
 			horizontalRotationLimit: null,
@@ -29,8 +29,8 @@ final class FreePreset extends BasePreset {
 			viewOffset: null,
 			entityOffset: null,
 			radius: null,
-			yawLimitMin: 0,
-			yawLimitMax: 0,
+			yawLimitMin: null,
+			yawLimitMax: null,
 			audioListenerType: CameraPreset::AUDIO_LISTENER_TYPE_CAMERA,
 			playerEffects: null,
 			aimAssist: null,

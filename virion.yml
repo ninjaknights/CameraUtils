@@ -1,6 +1,6 @@
 name: CammeraUtils
 description: PocketMine-MP virion designed to assist developers in creating camera-related plugins
-version: 0.0.1
+version: 0.0.2
 api: 5.0.0
 antigen: ninjaknights\CameraUtils
 author: NinjaKnightsDevTeam

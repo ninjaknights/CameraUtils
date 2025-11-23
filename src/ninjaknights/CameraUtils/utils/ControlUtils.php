@@ -6,10 +6,19 @@ use pocketmine\network\mcpe\protocol\types\ControlScheme;
 use pocketmine\network\mcpe\protocol\ClientboundControlSchemeSetPacket;
 use pocketmine\player\Player;
 
+
 /**
- * Utility class for creating control scheme packets.
- * 
- * @method static ClientboundControlSchemeSetPacket getScheme(string $type)
+ * Utility class for creating and sending control scheme packets.
+ *
+ * Available control scheme types:
+ *
+ *  - "locked_player_relative_strafe" | 0 → ControlScheme::LOCKED_PLAYER_RELATIVE_STRAFE
+ *  - "camera_relative"               | 1 → ControlScheme::CAMERA_RELATIVE
+ *  - "camera_relative_strafe"        | 2 → ControlScheme::CAMERA_RELATIVE_STRAFE
+ *  - "player_relative"               | 3 → ControlScheme::PLAYER_RELATIVE
+ *  - "player_relative_strafe"        | 4 → ControlScheme::PLAYER_RELATIVE_STRAFE
+ *
+ * @method static ClientboundControlSchemeSetPacket getScheme(string|int $type)
  * @method static ClientboundControlSchemeSetPacket getLockedPlayerRelativeStrafe()
  * @method static ClientboundControlSchemeSetPacket getCameraRelative()
  * @method static ClientboundControlSchemeSetPacket getCameraRelativeStrafe()
@@ -19,32 +28,37 @@ use pocketmine\player\Player;
 final class ControlUtils {
 
 	/**
-	 * Returns a control scheme packet based on the provided type string.
-	 * available types: `locked_player_relative_strafe` | `0`, `camera_relative`| `1`,
-	 * `camera_relative_strafe`| `2`, `player_relative`| `3`, `player_relative_strafe`| `4`.
+	 * Returns a control scheme packet based on the given type.
+	 * Accepted values:
+	 *  - int: 0–4 (matches ControlScheme constants)
+	 *  - string: one of:
+	 *        "locked_player_relative_strafe",
+	 *        "camera_relative",
+	 *        "camera_relative_strafe",
+	 *        "player_relative",
+	 *        "player_relative_strafe"
 	 *
-	 * @param string $type
+	 * @param string|int $type
+	 *
 	 * @return ClientboundControlSchemeSetPacket
-	 * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException If the type is invalid.
 	 */
 	public static function getScheme(string|int $type): ClientboundControlSchemeSetPacket {
-		return match($type) {
+		return match ($type) {
 			"locked_player_relative_strafe", 0 => self::getLockedPlayerRelativeStrafe(),
-			"camera_relative", 1 => self::getCameraRelative(),
-			"camera_relative_strafe", 2 => self::getCameraRelativeStrafe(),
-			"player_relative", 3 => self::getPlayerRelative(),
-			"player_relative_strafe", 4 => self::getPlayerRelativeStrafe(),
+			"camera_relative",               1 => self::getCameraRelative(),
+			"camera_relative_strafe",        2 => self::getCameraRelativeStrafe(),
+			"player_relative",               3 => self::getPlayerRelative(),
+			"player_relative_strafe",        4 => self::getPlayerRelativeStrafe(),
 			default => throw new \InvalidArgumentException("Invalid control scheme type: " . $type),
 		};
 	}
 
 	/**
-	 * Sends a control scheme packet to the specified player.
+	 * Sends a control scheme packet to a player.
 	 *
-	 * @param Player $player
-	 * @param string $type available types: `locked_player_relative_strafe` | `0`, `camera_relative`| `1`,
-	 * `camera_relative_strafe`| `2`, `player_relative`| `3`, `player_relative_strafe`| `4`.
-	 * @return void
+	 * @param Player $player Player receiving the control scheme update.
+	 * @param string|int $type Control scheme type (@see getScheme()).
 	 */
 	public static function sendPacket(Player $player, string|int $type): void {
 		$player->getNetworkSession()->sendDataPacket(self::getScheme($type));

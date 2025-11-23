@@ -2,7 +2,7 @@
   "name": "ninjaknights/camerautils",
   "description": "PocketMine-MP virion designed to assist developers in creating camera-related plugins.",
   "type": "library",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "GPL-3.0",
   "minimum-stability": "dev",
 	"prefer-stable": true,
