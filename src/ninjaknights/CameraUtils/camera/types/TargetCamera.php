@@ -25,7 +25,7 @@ final class TargetCamera extends BaseCamera {
 		return $this;
 	}
 
-	public function setTargetPlayer(Player|null $target = null, ?Vector3 $offset = null): self {
+	public function setTargetPlayer(Player|null $target = null, Vector3|null $offset = null): self {
 		$this->target = $offset ?? new Vector3(0, 0, 0);
 		$this->targetId = $target->getId();
 		return $this;

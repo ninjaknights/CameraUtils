@@ -66,6 +66,6 @@ abstract class BasePreset {
 		if(!$player->isConnected() || !$player->isOnline()){
 			throw new \LogicException("Cannot send Preset packet to a disconnected player.");
 		}
-		$player->getNetworkSession()->sendDataPacket(CameraPresetsPacket::create([$this->create()]), true);
+		$player->getNetworkSession()->sendDataPacket(CameraPresetsPacket::create([$this->create()]));
 	}
 }

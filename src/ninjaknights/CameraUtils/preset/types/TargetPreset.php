@@ -33,7 +33,7 @@ final class TargetPreset extends BasePreset {
 			yawLimitMin: null,
 			yawLimitMax: null,
 			audioListenerType: CameraPreset::AUDIO_LISTENER_TYPE_CAMERA,
-			playerEffects: false,
+			playerEffects: null,
 			aimAssist: null,
 			controlScheme: null
 		);

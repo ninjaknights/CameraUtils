@@ -15,16 +15,15 @@ use ninjaknights\CameraUtils\preset\types\{FreePreset, FirstPersonPreset, ThirdP
  * @method static int|null getPresetId(string $name)           Returns the numerical index of a preset, or null if not found.
  * @method static void registerPreset(BasePreset $preset)      Registers a preset; throws if already registered.
  * @method static void unregisterPreset(string $name)          Removes a preset by name.
- * @method static BasePreset|null get(string $name)            Retrieves a preset instance by name.
+ * @method static ?BasePreset get(string $name)            Retrieves a preset instance by name.
  * @method static bool isRegistered(string $name)              Checks whether a preset name is registered.
  * @method static int count()                                  Returns number of registered presets.
- * @method static array<string, BasePreset> getAll()           Returns associative array of all presets.
- * @method static array<BasePreset> getAllPresets()            Returns indexed list of all presets.
+ * @method static array getAll()           Returns associative array of all presets.
+ * @method static array getAllPresets()            Returns indexed list of all presets.
  * @method static void sendTo(Player $player)                  Sends camera presets packet to the given player.
  */
 final class PresetRegistry {
 
-	/** @var array<string, BasePreset> */
 	public static array $presets = [];
 
 	/**
@@ -36,13 +35,13 @@ final class PresetRegistry {
 		if(!empty(self::$presets)){
 			return;
 		}
-		self::registerPreset(new FreePreset());
-		self::registerPreset(new FirstPersonPreset());
-		self::registerPreset(new ThirdPersonPreset());
-		self::registerPreset(new ThirdPersonFrontPreset());
-		self::registerPreset(new FollowOrbitPreset());
-		self::registerPreset(new FixedBoomPreset());
-		self::registerPreset(new TargetPreset());
+		self::registerPreset(new FreePreset()); // 0
+		self::registerPreset(new FirstPersonPreset()); // 1
+		self::registerPreset(new ThirdPersonPreset()); // 2
+		self::registerPreset(new ThirdPersonFrontPreset()); // 3
+		self::registerPreset(new FollowOrbitPreset()); // 4
+		self::registerPreset(new FixedBoomPreset()); // 5
+		self::registerPreset(new TargetPreset()); // 6
 	}
 
 	/**
@@ -89,7 +88,7 @@ final class PresetRegistry {
 	 * @param string $name Case-insensitive preset name.
 	 * @return BasePreset|null
 	 */
-	public static function get(string $name): BasePreset|null {
+	public static function get(string $name): ?BasePreset {
 		return self::$presets[strtolower($name)] ?? null;
 	}
 
@@ -115,7 +114,7 @@ final class PresetRegistry {
 	/**
 	 * Retrieves all registered camera presets.
 	 *
-	 * @return array<string, BasePreset>
+	 * @return array
 	 */
 	public static function getAll(): array {
 		return self::$presets;
@@ -124,7 +123,7 @@ final class PresetRegistry {
 	/**
 	 * Retrieves all registered camera presets as an indexed array.
 	 *
-	 * @return array<BasePreset>
+	 * @return array
 	 */
 	public static function getAllPresets(): array {
 		return array_values(self::$presets);
@@ -133,7 +132,7 @@ final class PresetRegistry {
 	/**
 	 * Retrieves all registered camera presets as CameraPreset objects.
 	 *
-	 * @return array<CameraPreset>
+	 * @return array
 	 */
 	public static function getAllAsCameraPresets(): array {
 		$array = [];
@@ -154,6 +153,6 @@ final class PresetRegistry {
 		if(!$player->isConnected() || !$player->isOnline()){
 			throw new \LogicException("Cannot send Presets packet to a disconnected player.");
 		}
-		$player->getNetworkSession()->sendDataPacket(CameraPresetsPacket::create(self::getAllAsCameraPresets()), true);
+		$player->getNetworkSession()->sendDataPacket(CameraPresetsPacket::create(self::getAllAsCameraPresets()));
 	}
 }

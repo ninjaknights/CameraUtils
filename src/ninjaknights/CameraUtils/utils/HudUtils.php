@@ -90,7 +90,7 @@ final class HudUtils {
 			throw new \LogicException("Cannot send HUD packet to a disconnected player.");
 		}
 		$packet = SetHudPacket::create($elements, $visibility);
-		$player->getNetworkSession()->sendDataPacket($packet, true);
+		$player->getNetworkSession()->sendDataPacket($packet);
 	}
 
 	/** @return array Default HUD elements */

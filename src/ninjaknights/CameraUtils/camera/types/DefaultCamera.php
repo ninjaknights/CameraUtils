@@ -13,13 +13,13 @@ use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstructionRotation;
 
 final class DefaultCamera extends BaseCamera {
 
-	public ?int $preset = null;
-	public ?CameraSetInstructionEase $easing = null;
-	public ?Vector3 $position = null;
-	public ?CameraSetInstructionRotation $rotation = null;
-	public ?Vector3 $facingPosition = null;
-	public ?Vector2 $viewOffset = null;
-	public ?Vector3 $entityOffset = null;
+	public int|null $preset = null;
+	public CameraSetInstructionEase|null $easing = null;
+	public Vector3|null $position = null;
+	public CameraSetInstructionRotation|null $rotation = null;
+	public Vector3|null $facingPosition = null;
+	public Vector2|null $viewOffset = null;
+	public Vector3|null $entityOffset = null;
 
 	public function __construct(CameraAPI $api){
 		parent::__construct($api);
@@ -30,8 +30,8 @@ final class DefaultCamera extends BaseCamera {
 		return $this;
 	}
 
-	public function setPreset(?string $value = null): self {
-		$this->preset = PresetRegistry::getPresetId($value ?? "minecraft:free");
+	public function setPreset(string|null $value = null): self {
+		$this->preset = PresetRegistry::getPresetId($value ?? "minecraft:free") ?? 0;
 		return $this;
 	}
 
@@ -40,8 +40,8 @@ final class DefaultCamera extends BaseCamera {
 		return $this;
 	}
 
-	public function setPosition(?Vector3 $pos): self {
-		$this->position = $pos;
+	public function setPosition(Vector3 $value): self {
+		$this->position = $value;
 		return $this;
 	}
 
@@ -50,18 +50,18 @@ final class DefaultCamera extends BaseCamera {
 		return $this;
 	}
 
-	public function setFacing(?Vector3 $pos = null): self {
-		$this->facingPosition = $pos;
+	public function setFacing(Vector3 $value): self {
+		$this->facingPosition = $value;
 		return $this;
 	}
 
-	public function setViewOffset(?Vector2 $offset = null): self {
-		$this->viewOffset = $offset;
+	public function setViewOffset(Vector2 $value): self {
+		$this->viewOffset = $value;
 		return $this;
 	}
 
-	public function setEntityOffset(?Vector3 $offset = null): self {
-		$this->entityOffset = $offset;
+	public function setEntityOffset(Vector3 $value): self {
+		$this->entityOffset = $value;
 		return $this;
 	}
 
@@ -75,7 +75,9 @@ final class DefaultCamera extends BaseCamera {
 					rotation: $this->rotation,
 					facingPosition: $this->facingPosition,
 					viewOffset: $this->viewOffset,
-					entityOffset: $this->entityOffset
+					entityOffset: $this->entityOffset,
+					default: null,
+					ignoreStartingValuesComponent: false
 				),
 				clear: null,
 				fade: null,

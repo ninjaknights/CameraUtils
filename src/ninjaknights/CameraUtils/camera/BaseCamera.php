@@ -112,7 +112,7 @@ abstract class BaseCamera {
 		if(!$player->isConnected() || !$player->isOnline()){
 			throw new \LogicException("Cannot send Camera packet to a disconnected player.");
 		}
-		$player->getNetworkSession()->sendDataPacket($packet, true);
+		$player->getNetworkSession()->sendDataPacket($packet);
 	}
 
 	/**
@@ -131,19 +131,19 @@ abstract class BaseCamera {
 	 */
 	public function createInstruction(
 		int $preset = 0,
-		?CameraSetInstructionEase $ease = null,
-		?Vector3 $cameraPosition = null,
-		?CameraSetInstructionRotation $rotation = null,
-		?Vector3 $facingPosition = null,
-		?Vector2 $viewOffset = null,
-		?Vector3 $entityOffset = null,
-		?bool $default = true,
+		CameraSetInstructionEase|null $ease = null,
+		Vector3|null $cameraPosition = null,
+		CameraSetInstructionRotation $rotation = null,
+		Vector3|null $facingPosition = null,
+		Vector2|null $viewOffset = null,
+		Vector3|null $entityOffset = null,
+		bool|null $default = true,
 		bool $ignoreStartingValuesComponent = false
 	): CameraSetInstruction {
 		return new CameraSetInstruction(
 			preset: $preset,
 			ease: $ease,
-			cameraPosition: $cameraPosition ?? null,
+			cameraPosition: $cameraPosition,
 			rotation: $rotation,
 			facingPosition: $facingPosition,
 			viewOffset: $viewOffset,
