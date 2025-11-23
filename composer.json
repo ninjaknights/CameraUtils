@@ -5,7 +5,7 @@
   "version": "0.0.2",
   "license": "GPL-3.0",
   "minimum-stability": "dev",
-	"prefer-stable": true,
+  "prefer-stable": true,
   "authors": [
     {
       "name": "HydroGamesDev",
@@ -15,17 +15,17 @@
     }
   ],
   "require-dev": {
-		"pocketmine/pocketmine-mp": "^5.37.0",
+    "pocketmine/pocketmine-mp": "^5.37.0",
     "php": "^8.1",
-		"sof3/pharynx": "^0.3.8",
+    "sof3/pharynx": "^0.3.8",
     "phpstan/phpstan": "^1.12"
   },
   "autoload": {
     "classmap": ["src"]
   },
   "scripts": {
-		"analyze": "vendor/bin/phpstan analyze src --level=8 > output.txt 2>&1 || exit 0"
-	},
+    "analyze": "vendor/bin/phpstan analyze src --level=8 > output.txt 2>&1 || exit 0"
+  },
   "extra": {
     "virion": {
       "spec": "3.1",
@@ -33,9 +33,9 @@
     }
   },
     "config": {
-		"sort-packages": true,
-		"allow-plugins": {
-			"phpstan/extension-installer": true
-		}
-	}
+    "sort-packages": true,
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
+  }
 }
