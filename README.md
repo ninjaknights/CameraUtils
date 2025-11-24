@@ -22,8 +22,9 @@ Before using the API, you **must register** it in your plugin’s `onLoad()` or 
 
 use ninjaknights\CameraUtils\APIRegistry;
 use ninjaknights\CameraUtils\preset\PresetRegistry;
+use ninjaknights\CameraUtils\CameraPlayer;
 
-class MyPlugin extends PluginBase {
+class MyPlugin extends PluginBase implements Listener{
 	public function onEnable(): void {
 		// Register CameraUtils API
 		if(!APIRegistry::isRegistered()){
@@ -35,6 +36,14 @@ class MyPlugin extends PluginBase {
 		PresetRegistry::registerPreset(new MoviePreset());
 		// It should be a class extending ninjaknights\CameraUtils\preset\types\CustomPreset
 		// class MoviePreset extends CustomPreset{}
+	}
+
+	public function onJoin(PlayerJoinEvent $e): void {
+		// Implement a single instance for the player
+		// you can still use $a = (new CameraAPI($player))->play();
+		// instead of the below one if you want to create temp instances of the class
+		CameraPlayer::init($e->getPlayer());
+		// You can then do CameraPlayer::get($player)->play();
 	}
 }
 ```
