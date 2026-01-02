@@ -15,9 +15,8 @@
     }
   ],
   "require-dev": {
-    "pocketmine/pocketmine-mp": "^5.37.0",
+    "pocketmine/pocketmine-mp": "^5.39.0",
     "php": "^8.1",
-    "sof3/pharynx": "^0.3.8",
     "phpstan/phpstan": "^1.12"
   },
   "autoload": {
