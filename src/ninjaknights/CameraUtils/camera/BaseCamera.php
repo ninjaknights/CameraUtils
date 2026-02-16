@@ -16,6 +16,7 @@ use pocketmine\network\mcpe\protocol\types\camera\CameraFadeInstruction;
 use pocketmine\network\mcpe\protocol\types\camera\CameraFadeInstructionColor;
 use pocketmine\network\mcpe\protocol\types\camera\CameraFadeInstructionTime;
 use pocketmine\network\mcpe\protocol\types\camera\CameraFovInstruction;
+use pocketmine\network\mcpe\protocol\types\camera\CameraProgressOption;
 use pocketmine\network\mcpe\protocol\types\camera\CameraRotationOption;
 use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstruction;
 use pocketmine\network\mcpe\protocol\types\camera\CameraSetInstructionEase;
@@ -260,7 +261,7 @@ abstract class BaseCamera {
 	 * @param float $totalTime
 	 * @param int $easeType
 	 * @param Vector3[] $curve
-	 * @param Vector2[] $progressKeyFrames
+	 * @param CameraProgressOption[] $progressKeyFrames
 	 * @param CameraRotationOption[] $rotationOptions
 	 * @return CameraSplineInstruction
 	 */
